@@ -6,23 +6,19 @@ import Input from './components/input';
 
 class App extends Component {
 
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //
-  //   }
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      correct: 0
+    }
+  }
 
   componentDidMount() {
     const content = this.refs.words.refs.monologue.innerHTML,
-          elements = content.split(''),
           words = content.split(' '),
           wordCount = words.length;
 
-    console.log('wordCount', wordCount);
-
     this.setState({
-      elements,
       words
     });
   }
@@ -36,16 +32,18 @@ class App extends Component {
     this.setState({
       answer
     });
-    //
-    // if (this.state.elements[currentIndex] !== answer.slice(-1)) {
-    //   console.log('wrong answer bitch');
-    //
-    // }
 
-
-    if (answerWords[currentIndex] !== this.state.words[currentIndex]) {
-      console.log('wrong word');
+    if (this.state.words[currentIndex] === answerWords[currentIndex]) {
+      words[currentIndex]
+      // highlight word in green
+      //push index to array
+    } else {
+      // highlight word in red
     }
+
+      // to get correct count - remove all duplicates from correct count array and get length of arrays
+
+
   }
   render() {
     return (
@@ -54,7 +52,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <Words ref="words"/>
+        <Words color={this.state.color} ref="words"/>
         <Input onType={ this.onType.bind(this) }/>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
