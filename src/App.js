@@ -14,13 +14,20 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const content = this.refs.words.refs.monologue.innerHTML,
-          words = content.split(' '),
-          wordCount = words.length;
+    const content = this.refs.words.refs.monologue.querySelectorAll('div span'),
+          words = [];
 
-    this.setState({
-      words
+    content.forEach(word => {
+      words.push(word.innerHTML);
     });
+          // words = content.split(' '),
+          // wordCount = words.length;
+
+    console.log('content', words);
+
+    // this.setState({
+    //   words
+    // });
   }
 
   onType(e) {
@@ -29,17 +36,18 @@ class App extends Component {
         length = answerWords.length,
         currentIndex = length - 1;
 
+
     this.setState({
       answer
     });
 
-    if (this.state.words[currentIndex] === answerWords[currentIndex]) {
-      words[currentIndex]
-      // highlight word in green
-      //push index to array
-    } else {
-      // highlight word in red
-    }
+    // if (this.state.words[currentIndex] === answerWords[currentIndex]) {
+    //   words[currentIndex]
+    //   // highlight word in green
+    //   //push index to array
+    // } else {
+    //   // highlight word in red
+    // }
 
       // to get correct count - remove all duplicates from correct count array and get length of arrays
 
@@ -52,7 +60,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <Words color={this.state.color} ref="words"/>
+        <Words color={ this.state.color } ref="words"/>
         <Input onType={ this.onType.bind(this) }/>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
