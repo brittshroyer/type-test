@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import Words from './words';
 import Input from './input';
+import StopWatch from './stopwatch';
 
 class Play extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {hasStarted: false};
+  }
 
   componentDidMount() {
     const content = this.refs.words.refs.monologue.querySelectorAll('div span'),
@@ -21,7 +27,16 @@ class Play extends Component {
     });
   }
 
+  startClock() {
+
+  }
+
   onType(e) {
+
+    if (!this.state.hasStarted) {
+      this.setState({hasStarted: true});
+    }
+
     let typed = e.target.value,
         typedWords = typed.split(' '),
         length = typedWords.length,
@@ -29,22 +44,27 @@ class Play extends Component {
 
     let currentWord = typedWords[currentIndex],
         space = ' ',
-        fullWord = currentWord.concat(space);
+        fullWord = currentWord.concat(space), // not always a space after
+        words = this.state.words,
+        score;
 
     if (fullWord === this.state.words[currentIndex].word) {
-      let words = this.state.words;
-
       words[currentIndex].correct = true;
       this.setState({
         words
       });
 
+      score = words.filter(word => word.correct === true).length;
     }
+
   }
 
   render() {
+    let startClock = this.state.startClock;
+
     return (
       <div className="play">
+        <StopWatch hasStarted={hasStarted}/>
         <Words ref="words"/>
         <Input onType={ this.onType.bind(this) }/>
       </div>

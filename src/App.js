@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Play from './components/play';
-import StopWatch from './components/stopwatch';
 
 class App extends Component {
 
@@ -22,17 +21,17 @@ class App extends Component {
   }
 
   render() {
+    let button = <button className="start-button" onClick={this.handleClick.bind(this, 'play')}>Start</button>;
+
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">How Fast Can You Type?</h1>
         </header>
-        {
-          this.state.isButtonVisible
-          ? <button className="start-button" onClick={this.handleClick.bind(this, 'play')}>Start</button>
-          : <StopWatch />
-        }
+
+        {this.state.isButtonVisible && button}
+
         {this.renderSubComponent()}
       </div>
     );
