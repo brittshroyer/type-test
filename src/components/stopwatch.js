@@ -6,21 +6,39 @@ class Stopwatch extends Component {
     this.state = {secondsRemaining: 60};
   }
 
-  componentDidUpdate() {
-    if (this.props.hasStarted) {
-      this.initiateCountDown();
+  componentDidMount() {
+    this.props.onRef(this);
+  }
+
+  updateTimer(timeRemaining){
+  let secondsRemaining = timeRemaining % 60;
+    this.setState({
+      secondsRemaining,
+    });
+  }
+
+  countDown(secondsRemaining){
+    this.setState({
+      secondsRemaining
+    });
+    if (secondsRemaining === 0) {
+      this.props.onCompletion();
+    }
+    if (secondsRemaining > 0) {
+      this.updateTimer(secondsRemaining);
+      secondsRemaining = secondsRemaining-1;
+      this.setTimeoutId = setTimeout(this.countDown.bind(this,secondsRemaining), 1000);
     }
   }
 
-  initiateCountDown() {
-    //something here
+  componentWillUnmount(){
+    clearTimeout(this.setTimeoutId);
   }
 
   render() {
-
     return (
       <div>
-        <h1>{this.props.secondsRemaining}</h1>
+        <h1>{this.state.secondsRemaining}</h1>
         <h3>Start Typing to Begin</h3>
       </div>
     )

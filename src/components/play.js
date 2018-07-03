@@ -10,6 +10,10 @@ class Play extends Component {
     this.state = {hasStarted: false};
   }
 
+  onStart = (secondsRemaining) => {
+    this.StopWatch.countDown(secondsRemaining);
+  }
+
   componentDidMount() {
     const content = this.refs.words.refs.monologue.querySelectorAll('div span'),
           words = [];
@@ -27,14 +31,11 @@ class Play extends Component {
     });
   }
 
-  startClock() {
-
-  }
-
   onType(e) {
 
     if (!this.state.hasStarted) {
       this.setState({hasStarted: true});
+      this.onStart(60);
     }
 
     let typed = e.target.value,
@@ -55,16 +56,19 @@ class Play extends Component {
       });
 
       score = words.filter(word => word.correct === true).length;
+
+      console.log('Score: ', score);
     }
 
   }
+  //TODO need to set hasStarted back to false at some point? componentWillUnmount?
 
   render() {
-    let startClock = this.state.startClock;
-
+    let startClock = this.state.startClock,
+        hasStarted = this.state.hasStarted;
     return (
       <div className="play">
-        <StopWatch hasStarted={hasStarted}/>
+        <StopWatch hasStarted={hasStarted} onRef={ref => (this.StopWatch = ref)}/>
         <Words ref="words"/>
         <Input onType={ this.onType.bind(this) }/>
       </div>
