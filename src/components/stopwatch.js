@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Stopwatch extends Component {
   constructor(props) {
     super(props);
-    this.state = {secondsRemaining: 60};
+    this.state = {secondsRemaining: '1:00'};
   }
 
   componentDidMount() {
@@ -11,7 +11,7 @@ class Stopwatch extends Component {
   }
 
   updateTimer(timeRemaining){
-  let secondsRemaining = timeRemaining % 60;
+    let secondsRemaining = timeRemaining % 60;
     this.setState({
       secondsRemaining,
     });

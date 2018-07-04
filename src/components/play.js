@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import Words from './words';
 import Input from './input';
 import StopWatch from './stopwatch';
+import ScoreBoard from './scoreboard';
 
 class Play extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {hasStarted: false};
+    this.state = {hasStarted: false, score: 0};
   }
 
   onStart = (secondsRemaining) => {
@@ -35,7 +36,10 @@ class Play extends Component {
 
     if (!this.state.hasStarted) {
       this.setState({hasStarted: true});
-      this.onStart(60);
+      let initiateTimer = () => {
+        this.onStart(59);
+      };
+      setTimeout(initiateTimer, 1000);
     }
 
     let typed = e.target.value,
@@ -47,28 +51,28 @@ class Play extends Component {
         space = ' ',
         fullWord = currentWord.concat(space), // not always a space after
         words = this.state.words,
-        score;
+        score = 0;
 
     if (fullWord === this.state.words[currentIndex].word) {
       words[currentIndex].correct = true;
-      this.setState({
-        words
-      });
-
       score = words.filter(word => word.correct === true).length;
 
-      console.log('Score: ', score);
+      this.setState({
+        words,
+        score
+      });
     }
-
   }
   //TODO need to set hasStarted back to false at some point? componentWillUnmount?
 
   render() {
     let startClock = this.state.startClock,
-        hasStarted = this.state.hasStarted;
+        hasStarted = this.state.hasStarted,
+        score = this.state.score;
     return (
       <div className="play">
         <StopWatch hasStarted={hasStarted} onRef={ref => (this.StopWatch = ref)}/>
+        <ScoreBoard score={score}/>
         <Words ref="words"/>
         <Input onType={ this.onType.bind(this) }/>
       </div>
